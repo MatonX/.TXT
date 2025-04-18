@@ -1,0 +1,397 @@
+COMANDOS DE OFIMÁTICA BASICA EN POWERSHELL
+
+Bienvenidos a mi .TXT Básico de comandos Powershell para Ofimaticos y administrativos
+que te ayudarán a la automatización de tareas básicas, solucion a errores comunes,
+verificar estado de la red wifi, ver contraseñas, Verificar si tenemos internet, etc...
+
+Espero les sirva y compartan el Documento:
+
+Saludos
+
+Atte. Maton X 
+
+----------------------------------------------
+
+Primero que todo para iniciar POWERSHELL con comandos
+CTRL + X (escribir POWERSHELL)
+presionamos enter y ya estamos en Powershell.
+
+-----------------------------------------------
+
+📌 Información del Sistema
+
+-Ver nombre del equipo
+hostname
+
+-Ver información del sistema (SO, versión)
+systeminfo
+
+-Ver usuario actual
+whoami
+
+-Información técnica resumida (Marca, modelo, versión de Windows)
+Get-ComputerInfo
+
+-Modelo del procesador.
+wmic cpu get name
+
+-Memoria RAM instalada (en bytes).
+wmic memorychip get capacity
+
+-Espacio en discos duros.
+Get-WmiObject Win32_LogicalDisk
+
+-Tiempo desde el último reinicio (busca la línea "Statistics since…").
+net stats srv
+
+-Fecha y hora actual.
+Get-Date
+
+-Usuarios conectados (útil en RDP).
+query user
+
+-Saber el modelo de tu CPU y RAM:
+wmic cpu get name
+wmic memorychip get capacity
+
+-Ver cuánto tiempo lleva encendido el PC:
+net stats srv | Select-String "since"
+
+
+🛠️ Hardware Detallado
+
+-1. Información del Procesador (CPU) *Nombre del CPU, núcleos, velocidad máxima (MHz), 
+caché L2/L3.
+Get-WmiObject Win32_Processor | Select-Object Name, NumberOfCores, MaxClockSpeed, L2CacheSize, L3CacheSize
+
+-2. Memoria RAM (Especificaciones Completas) *Fabricante, modelo, capacidad (en bytes), 
+velocidad (MHz), slot de memoria.
+Get-WmiObject Win32_PhysicalMemory | Select-Object Manufacturer, PartNumber, Capacity, Speed, DeviceLocator
+
+-3. Discos Duros y SSD *Nombre, tipo (HDD/SSD), tamaño, estado de salud.
+Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size, HealthStatus
+
+
+💾 Sistema Operativo y Licencias
+
+4. Versión Exacta de Windows y Build *Versión mayor, menor, build (ej: 10.0.19045 para Windows 10 22H2).
+[System.Environment]::OSVersion.Version
+
+5. Clave de Producto de Windows *(Requiere ejecución como Administrador)
+(Get-WmiObject -Class SoftwareLicensingService).OA3xOriginalProductKey
+
+
+
+🌐 Redes y Conectividad
+
+6. Puertos Abiertos y Conexiones Activas *IP local, puerto local, IP remota, puerto remoto.
+Get-NetTCPConnection -State Established | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort
+
+7. Configuración Completa de Red (IP, DNS, Gateway)
+Get-NetIPConfiguration -Detailed | Select-Object InterfaceAlias, IPv4Address, DNSServer, DefaultGateway
+
+
+
+⚡ Rendimiento y Uso de Recursos
+
+8. Procesos Consumiendo Más CPU
+Get-Process | Sort-Object CPU -Descending | Select-Object -First 5
+
+9. Uso de Memoria por Aplicación
+Get-Process | Sort-Object WS -Descending | Select-Object -First 5
+
+
+
+🔍 Eventos y Logs del Sistema
+
+10. Últimos 5 Errores del Sistema
+Get-EventLog -LogName System -EntryType Error -Newest 5
+
+11. Eventos de Apagado/Reinicio
+Get-EventLog -LogName System -Source "USER32" | Where-Object {$_.Message -like "*shut down*"} | Select-Object -First 3
+
+
+📤 Exportar Información a un Archivo
+
+Get-WmiObject Win32_ComputerSystem | Export-Csv -Path "C:\PC_Info.csv" -NoTypeInformation
+(Genera un CSV con datos del sistema)
+
+*NOTA:
+La mayoría funcionan sin permisos de admin, excepto:
+Clave de producto de Windows (OA3xOriginalProductKey).
+Algunos logs del sistema (Get-EventLog).
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+Comandos PowerShell Avanzados para Auditoría de Sistemas
+
+(Para técnicos de TI, administradores y profesionales de soporte nivel 2/3)
+
+
+
+
+🔧 Información del BIOS/UEFI
+
+Get-WmiObject Win32_BIOS | Select-Object Manufacturer, SerialNumber, Version, ReleaseDate
+
+¿Qué revela?
+Fabricante, número de serie, versión y fecha del BIOS.
+Útil para:
+Verificar vulnerabilidades (ej: BIOS sin actualizar).
+Auditorías de hardware.
+        
+        
+        
+        
+        
+💻 Virtualización y Hyper-V
+
+Get-WmiObject Win32_ComputerSystem | Select-Object Model, HypervisorPresent
+
+¿Qué revela?
+Si el equipo está virtualizado (Hyper-V, VMware, etc.).
+Modelo exacto de la máquina (Dell OptiPlex 3090, VMware Virtual Platform, etc.).
+
+
+
+
+
+🖥️ Drivers Instalados (Fabricante y Versión)
+
+Get-WmiObject Win32_PnPSignedDriver | Where-Object { $_.DeviceName -ne $null } | Select-Object DeviceName, Manufacturer, DriverVersion | Sort-Object Manufacturer -Unique
+
+¿Qué revela?
+Listado de drivers con versión y fabricante.
+Útil para:
+Detectar drivers desactualizados.
+Solucionar conflictos de hardware.
+
+
+
+
+
+
+📡 Puertos Abiertos (Listener y Conexiones)
+
+Get-NetTCPConnection -State Listen | Select-Object LocalAddress, LocalPort, OwningProcess | Sort-Object LocalPort
+
+¿Qué revela?
+Puertos abiertos y proceso asociado (ej: Puerto 80 → Apache).
+Útil para:
+Detectar malware (puertos sospechosos).
+Verificar servicios en ejecución.
+
+
+
+
+
+
+🛡️ Información de Seguridad (Parches y Hotfixes)
+
+Get-HotFix | Select-Object HotFixID, InstalledOn, Description | Sort-Object InstalledOn -Descending
+
+¿Qué revela?
+Últimos parches de Windows instalados.
+Fecha de instalación y descripción.
+
+
+
+
+
+
+💾 Discos (SMART Status y Particiones)
+
+Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size, HealthStatus, OperationalStatus
+
+¿Qué revela?
+Estado SMART (HealthStatus).
+Si un disco está fallando (OperationalStatus: Warning).
+
+
+
+
+
+🌐 Configuración de Red Avanzada
+
+Get-NetAdapter | Select-Object Name, InterfaceDescription, MacAddress, LinkSpeed
+
+¿Qué revela?
+Nombre, descripción, MAC y velocidad de conexión de tarjetas de red.
+
+
+
+
+📜 EventViewer (Filtrado por Críticos/Errores)
+
+Get-EventLog -LogName System -EntryType Error,Warning -After (Get-Date).AddDays(-7) | Select-Object TimeGenerated, Source, Message -First 10
+
+¿Qué revela?
+Errores y advertencias de los últimos 7 días.
+
+
+
+
+📤 Exportar Todos los Datos a un HTML (Reporte Profesional)
+
+$Report = @()
+$Report += Get-WmiObject Win32_ComputerSystem | Select-Object Model, Manufacturer
+$Report += Get-WmiObject Win32_BIOS | Select-Object SerialNumber, Version
+$Report | ConvertTo-Html -Title "Auditoría del Sistema" | Out-File "C:\Auditoria.html"
+
+Resultado:
+Un archivo HTML listo para entregar al departamento de TI.
+
+
+
+
+🖥️ Procesos y Aplicaciones
+
+-Listar programas en ejecución
+tasklist
+
+-Cerrar un programa (ej: Excel)
+taskkill /IM excel.exe /F
+
+
+
+
+
+🌐 Redes Básicas
+
+-Ver IP y configuración de red
+ipconfig
+
+-Probar conexión a Internet (ping a Google)
+ping 8.8.8.8
+
+-Ver redes WiFi disponibles
+netsh wlan show networks
+
+
+
+
+⚙️ Utilidades Rápidas
+
+-Abrir el Bloc de Notas
+notepad
+
+-Abrir el Explorador de Archivos
+explorer
+
+-Ver la fecha y hora actual
+date
+
+
+
+
+
+
+🚀 Ejemplos Prácticos
+
+-Problema: "No tengo Internet".
+ipconfig  
+#Verifica tu IP
+
+ping google.com  
+#Prueba conexión
+
+-Problema: "Excel no responde".
+taskkill /IM excel.exe /F  
+#Fuerza el cierre
+
+
+
+
+
+
+
+
+
+
+
+
+
+-Abre Excel
+Start-Process "excel.exe"
+
+-Abre Outlook
+Start-Process "outlook.exe"
+
+-Muestra espacio libre en GB
+Get-Volume | Select-Object DriveLetter, SizeRemaining
+
+-Apagar inmediatamente
+Stop-Computer -Force
+
+-Reiniciar inmediatamente
+Restart-Computer -Force
+
+-Copia todos los archivos importantes y los envía a una carpeta de respaldo.
+Copy-Item -Path "C:\Documentos\*" -Destination "D:\Respaldo\" -Recurse
+
+-------------------------------------------------------------------------
+
+📧 Correo y Redes
+-Ver contraseñas WiFi guardadas (Requiere admin)
+netsh wlan show profile name="NombreWiFi" key=clear
+
+-Testear conexión a Internet
+Test-NetConnection -ComputerName google.com
+
+-----------------------------------------------
+
+⏰ Tareas Programadas (Automáticas)
+
+-Crear una tarea programada para limpiar archivos temporales cada lunes
+
+$Action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "Remove-Item '$env:TEMP\*' -Recurse -Force"
+$Trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Monday -At 8am
+Register-ScheduledTask -TaskName "LimpiezaTemp" -Action $Action -Trigger $Trigger
+
+-Deshabilitar programas que arrancan con Windows
+Get-StartupApps | Disable-StartupApp  
+#Necesita módulo "StartupApps" 
+(instalar con: Install-Module -Name StartupApps)
+
+
+-------------------------------------------------
+
+🚨 Soluciones Rápidas para Problemas Comunes
+
+-Si Word/Excel se cierran inesperadamente
+Get-Process "winword", "excel" | Stop-Process -Force  
+#Cierra todos los procesos de Office
+
+-Si la impresora no responde
+Restart-Service -Name "Spooler" -Force  
+#Reinicia el servicio de impresión
+
+
+
+
+
+
+
+╔════════════════════════════════════════════════════╗
+║   M A R C O S   T R A B O L   A R R I A G A D A    ║
+╟────────────────────────────────────────────────────╢
+║  🎓 Estudiante de Informática                      ║
+║  📚 Especializandome en IA                         ║
+╟────────────────────────────────────────────────────╢
+║  📧 marcostrafal@gmail.com                         ║
+║  📞 +56 9 5496 2449                                ║
+║  💻 github.com/MatonX                              ║
+║  📷 instagram.com/marcos_trabol_arriagada          ║
+╚════════════════════════════════════════════════════╝
+
+
+
+╔═════  ∘ 𝕸𝖆𝖙𝖔𝖓 𝖃 ∘  ═════╗
+
+║ ░▒▓█►    𝕮𝖍𝖎𝖑𝖊    ◄█▓▒░   ║
+
+╚═════   ∘ 2025 ∘   ═════╝
+ 
+

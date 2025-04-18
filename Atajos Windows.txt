@@ -1,0 +1,92 @@
+🖥️ Atajos Universales en Windows
+
+Atajo	                Descripción
+Win + D         	Mostrar/esconder el escritorio.
+Win + E           	Abrir el Explorador de Archivos.
+Win + R	                Abrir el cuadro "Ejecutar".
+Win + L	                Bloquear la sesión rápidamente.
+Win + V	                Historial del portapapeles (Windows 10+).
+Win + Shift + S	        Captura de pantalla con recorte.
+Alt + Tab	        Cambiar entre ventanas abiertas.
+Ctrl + Shift + Esc	Abrir el Administrador de tareas.
+
+
+
+
+📊 Microsoft Office (Word, Excel, Outlook, PowerPoint)
+
+Atajo              	Descripción
+Ctrl + N	        Nuevo documento/archivo.
+Ctrl + S	        Guardar el archivo actual.
+Ctrl + P	        Imprimir.
+Ctrl + F	        Buscar texto.
+Ctrl + H	        Reemplazar texto.
+Ctrl + Z / Ctrl + Y	Deshacer / Rehacer.
+F12	                Guardar como…
+F7	                Revisar ortografía (Word).
+Alt + F4	        Cerrar la aplicación.
+
+
+
+
+Excel Específicos
+
+Ctrl + T            Convertir rango en tabla.
+Ctrl + Flechas      Moverse entre celdas rápidamente.
+Alt + =             Autosuma.
+
+
+
+
+🌐 Navegadores (Chrome, Edge, Firefox)
+
+Atajo	                Descripción
+
+Ctrl + T	        Nueva pestaña.
+Ctrl + W	        Cerrar pestaña actual.
+Ctrl + Shift + T	Recuperar pestaña cerrada.
+Ctrl + L	        Ir a la barra de direcciones.
+Ctrl + F5        	Recargar página (ignorando caché).
+Ctrl + Shift + N	Ventana de incógnito.
+
+
+
+
+
+🔧 Soporte Técnico (Herramientas Comunes)
+
+Atajo	                  Descripción
+
+Win + X	                  Menú rápido de Windows (acceso a PowerShell, Configuración, etc.).
+Win + Ctrl + Shift + B	  Reiniciar controlador de video (útil si la pantalla se congela).
+Win + Pausa/Break	  Abrir Propiedades del sistema.
+Ctrl + Shift + Esc	  Abrir Administrador de tareas directamente.
+Alt + F4 + Enter	  Apagar el equipo rápidamente (desde el escritorio).
+
+
+📌 Bonus: Atajos para CMD y PowerShell
+
+Atajo     	Descripción
+
+Ctrl + C	Detener un comando en ejecución.
+Ctrl + V	Pegar en PowerShell (no funciona en CMD antiguo).
+Tab	        Autocompletar nombres de archivos/comandos.
+F7      	Historial de comandos (en CMD).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,93 @@
+🖥️ TeamViewer
+
+Atajos, Soluciones Rápidas y Tips Técnicos para TeamViewer
+
+🔑 Atajos Clave
+
+Ctrl + Alt + Del	Enviar "Ctrl + Alt + Supr" al equipo remoto.
+Ctrl + Shift + F12	Mostrar/ocultar barra de herramientas.
+F8	                Abrir chat durante la sesión.
+Alt + Tab	        Cambiar entre ventanas en el equipo remoto.
+Ctrl + Alt + F    	Alternar pantalla completa.
+Ctrl + Alt + Q  	Cerrar sesión remota.
+
+--------------------------------
+--------------------------------
+
+
+
+⚠️ Soluciones Rápidas para Problemas Comunes
+
+
+
+1. Error: "TeamViewer no se conecta" (Firewall/Red)
+-Verifica reglas de firewall:
+
+netsh advfirewall firewall show rule name="TeamViewer"
+
+-Permitir TeamViewer manualmente:
+
+netsh advfirewall firewall add rule name="TeamViewer" dir=in action=allow program="C:\Program Files\TeamViewer\TeamViewer.exe" enable=yes
+
+
+
+2. Sesión Bloqueada por "Uso Comercial Detectado"
+Solución temporal:
+-Pide al cliente que reinicie su router (cambia IP pública).
+-Usa ID y contraseña de acceso único (no cuenta permanente).
+
+3. TeamViewer Congelado o Sin Respuesta
+-Reinicia el servicio:
+
+Restart-Service -Name "TeamViewer" -Force
+
+-Mata el proceso y vuelve a abrirlo:
+
+taskkill /IM TeamViewer.exe /F && start "" "C:\Program Files\TeamViewer\TeamViewer.exe"
+
+
+
+4. Problemas de Latencia o Lag
+Optimiza la conexión:
+-En TeamViewer: Menú → Extras → Opciones → Avanzadas → "Optimizar velocidad".
+-Reduce la calidad gráfica: "Escala de grises" en opciones de visualización.
+
+
+--------------------------------------------------------
+--------------------------------------------------------
+🔍 Tips Técnicos Avanzados
+
+1. Acceso sin Intervención del Usuario (Unattended Access)
+-Configuración requerida:
+-Instala TeamViewer como servicio (opción durante la instalación).
+-Establece una contraseña personalizada en:
+
+reg add "HKLM\SOFTWARE\TeamViewer" /v "SecurityPassword" /t REG_SZ /d "TuContraseña" /f
+
+
+2. Logs de TeamViewer para Diagnóstico
+Ubicación de logs:
+
+C:\Program Files (x86)\TeamViewer\TeamViewer*.log
+
+-Filtrar errores:
+
+Select-String -Path "C:\Program Files (x86)\TeamViewer\TeamViewer15_Logfile.log" -Pattern "error|failed"
+
+
+3. TeamViewer en Modo Consola (Windows Server)
+Conéctate a sesiones de consola:
+-Usa el parámetro /console al iniciar TeamViewer:
+
+"C:\Program Files\TeamViewer\TeamViewer.exe" /console
+
+
+----------------------------------
+----------------------------------
+🚀 Consejos para Soporte Técnico
+
+    Sesiones rápidas: Usa ID y contraseña temporal en lugar de cuentas vinculadas (evita bloqueos por uso comercial).
+
+    Alternativas: Si TeamViewer falla, usa AnyDesk o Chrome Remote Desktop como plan B.
+
+    Seguridad: Nunca compartas contraseñas permanentes. Usa autenticación de 2 factores (2FA).
