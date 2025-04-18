@@ -1,0 +1,84 @@
+AnyDesk: Atajos, Soluciones Rápidas y Tips Técnicos**
+
+🔑 Atajos Clave (Durante una Sesión Remota)
+
+Atajo                   Función 
+
+Ctrl + Alt + Del        Enviar "Ctrl + Alt + Supr" al equipo remoto.
+Ctrl + Alt + F          Pantalla completa / Ventana.
+Ctrl + Alt + S          Captura de pantalla remoto.
+Ctrl + Alt + Q          Cerrar sesión remoto.
+Ctrl + Alt + R          Reiniciar equipo remoto.
+Ctrl + Alt + L          Bloquear equipo remoto.
+
+
+
+⚠️ Soluciones Rápidas para Problemas Comunes
+
+
+1. "Conexión rechazada" o "No se puede conectar"
+-Causa: AnyDesk no está en ejecución en el equipo remoto o hay bloqueo de firewall.
+-Solución:
+  -Verifica que el servicio de AnyDesk esté activo (en el equipo remoto):
+    Get-Service -Name "AnyDesk" | Start-Service
+    
+  - Si el firewall bloquea AnyDesk, abre el puerto 7070 TCP:
+    netsh advfirewall firewall add rule name="AnyDesk" dir=in action=allow protocol=TCP localport=7070
+  
+
+2. "Latencia alta" o Conexión lenta
+- Causa: Ancho de banda limitado o configuración gráfica.
+- Solución:
+  - En AnyDesk: Menú → Preferencias → Calidad → "Optimizar para velocidad".
+  - Reduce la resolución de pantalla remota.
+
+
+3. "AnyDesk no inicia" (Error en Windows)
+- Solución:
+  - Reinstala AnyDesk como administrador:
+    msiexec /i "AnyDesk.msi" /qn
+
+  - O elimina la configuración corrupta:
+    Remove-Item -Path "$env:ProgramData\AnyDesk" -Recurse -Force
+
+
+4. "El cliente no tiene permisos para controlar el equipo"
+- Causa: La opción de acceso no está habilitada en el equipo remoto.
+- Solución:
+  - En el equipo remoto, ve a:
+    AnyDesk → Configuración → Seguridad → "Permitir control remoto".
+
+---
+
+💡 Tips Técnicos Avanzados
+
+
+1. Ejecutar AnyDesk en modo portable** (sin instalación):
+   - Descarga la versión portable desde [anydesk.com](https://anydesk.com) y ejecuta `AnyDesk.exe`.
+
+2. Acceso sin intervención del usuario (Unattended Access):
+   - Configura una contraseña en:
+     AnyDesk → Configuración → Seguridad → "Contraseña de acceso no supervisado".
+
+3. Registrar AnyDesk como servicio (para reinicios automáticos):
+   AnyDesk.exe --install "C:\AnyDesk" --start-with-win --silent
+
+
+4. Verificar conexiones activas en red local (LAN):
+   Test-NetConnection -ComputerName <IP_Remota> -Port 7070
+
+
+---
+
+📌 Consejos para Soporte en Empresas 
+- Si AnyDesk está bloqueado por GPO:
+  Usa la versión portable desde una USB (previa autorización de TI).
+- Para sesiones masivas:
+  Configura "Mis direcciones" en AnyDesk para gestionar múltiples equipos.
+
+--- 
+
+🚀 ¿Cómo Usar Estos Tips?
+1. Para problemas básicos: Usa los atajos y ajustes de calidad.
+2. Para errores técnicos: Ejecuta los comandos PowerShell (como admin).
+3. En redes corporativas: Coordina con el equipo de TI para abrir puertos o excepciones.
