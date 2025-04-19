@@ -1,0 +1,100 @@
+🔧 Google Meet: Atajos, Soluciones Rápidas y Tips Técnicos
+
+🎯 Atajos Clave (Todos Funcionan en Chrome/Edge)
+
+Atajo	             Acción
+Ctrl + D             Activar/desactivar micrófono (evita eco).
+Ctrl + E**	     Activar/desactivar cámara rápidamente.
+Ctrl + Shift + C     Abrir/cerrar el chat (útil para compartir links).
+Ctrl + Alt + P	     Anclar/desanclar la cámara de un participante.
+Ctrl + Shift + T     Recuperar pestaña cerrada (si cierras Meet por error).
+
+
+⚠️ Problemas Comunes y Soluciones Técnicas
+
+1. "No se escucha el audio" (Micrófono no detectado)
+
+    Solución rápida:
+        Verifica que Chrome/Edge tenga permisos:
+            Abre chrome://settings/content/microphone.
+            Asegúrate de que meet.google.com esté permitido.
+        Prueba con auriculares (evita usar altavoces abiertos).
+    Comando útil (Windows):
+    powershell
+
+start ms-settings:privacy-microphone  # Abre configuración de micrófono de Windows
+
+
+
+2. "La cámara no funciona"
+    Solución rápida:
+        Cierra otras apps que usen la cámara (Zoom, Teams).
+        Reinicia Chrome: Shift + Esc → Termina procesos de cámara.
+    Verifica dispositivos en PowerShell:
+    powershell
+
+Get-PnpDevice -Class Camera | Select-Object Name, Status
+
+(Si aparece Error, reinicia el servicio de cámara con Restart-Service -Name "Windows Camera Frame Server").
+
+
+
+3. "Meet se traba o va lento"
+    Solución rápida:
+        Ctrl + Shift + R: Recarga Meet ignorando la caché.
+        Reduce la calidad del video:
+            Haz clic en ⋮ (Configuración) → "Calidad de video" → Elige "Estándar".
+    Verifica uso de red (PowerShell):
+    powershell
+
+Get-NetTCPConnection -State Established | Where-Object { $_.RemotePort -eq 443 } | Measure-Object
+
+(Si hay muchas conexiones, cierra pestañas innecesarias).
+
+
+
+
+4. "No puedo compartir pantalla"
+
+    Solución rápida:
+
+        Asegúrate de que Chrome tenga permisos:
+
+            Abre chrome://settings/content/screenCapture.
+
+            Permite meet.google.com.
+
+        Usa modo incógnito (Ctrl + Shift + N) para evitar extensiones conflictivas.
+        
+        
+        
+🚀 Tips Avanzados para Soporte Técnico
+
+    Forzar cierre de Meet (si no responde):
+    powershell
+
+taskkill /IM chrome.exe /F  # Cierra Chrome por completo
+
+Registros de errores (Chrome):
+Abre chrome://net-export/ → Guarda logs y revísalos en netlog-viewer.
+
+Si Meet bloquea el acceso por "políticas de la organización":
+
+    Verifica si hay un proxy corporativo:
+    powershell
+
+reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer
+
+
+📌 Resumen de Emergencia
+
+Problema	     Solución
+
+Sin audio	     chrome://settings/content/microphone + auriculares
+Cámara negra	     Get-PnpDevice -Class Camera + reiniciar Chrome
+Meet lento           Ctrl + Shift + R + reducir calidad de video
+Error de política    Verificar proxy con reg query
+
+
+
+
